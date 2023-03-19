@@ -24,7 +24,6 @@ int main()
     }
   }
 
-  imprime(indice);
   printf("\n");
   consulta(indice, chaves, n, documentos);
   imprime(indice);

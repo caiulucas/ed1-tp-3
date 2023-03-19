@@ -14,15 +14,13 @@ void inicia(IndiceInvertido indice)
 bool insereDocumento(IndiceInvertido indice, Chave chave, NomeDocumento nomeDocumento)
 {
 
-  if (busca(indice, chave) == -1)
-  {
-    int i = h(chave, M);
-    strcpy(indice[i].chave, chave);
-    strcpy(indice[i].documentos[indice[i].n++], nomeDocumento);
-    return true;
-  }
+  int iBusca = busca(indice, chave);
+  int i = iBusca == -1 ? h(chave, M) : iBusca;
 
-  return false;
+  strcpy(indice[i].chave, chave);
+  strcpy(indice[i].documentos[indice[i].n++], nomeDocumento);
+
+  return i != -1;
 }
 
 int busca(IndiceInvertido indice, Chave chave)
@@ -67,7 +65,6 @@ void imprime(IndiceInvertido indice)
     if (strcmp(indice[i].chave, VAZIO) != 0)
     {
       printf("%s - ", indice[i].chave);
-      printf("%d - ", indice[i].n);
       for (j = 0; j < indice[i].n; j++)
       {
         printf("%s ", indice[i].documentos[j]);
