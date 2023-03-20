@@ -24,9 +24,18 @@ int main()
     }
   }
 
-  printf("\n");
-  consulta(indice, chaves, n, documentos);
-  imprime(indice);
+  sort(documentos, nDocumentos);
+  char ehBusca;
+  scanf("%c ", &ehBusca);
+
+  if(ehBusca == 'B') {
+    Chave buscaChaves[N];
+    int nChaves = pegarChaves(buscaChaves);
+
+    consulta(indice, buscaChaves, nChaves, documentos);
+  } else {
+    imprime(indice);
+  }
 
   return 0;
 }

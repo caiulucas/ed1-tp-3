@@ -3,5 +3,6 @@
     ".prettierrc": "json",
     "*.tsx": "typescriptreact",
     "indiceinvertido.h": "c"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
