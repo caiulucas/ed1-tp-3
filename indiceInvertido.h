@@ -19,6 +19,7 @@ typedef Item IndiceInvertido[M];
 
 void inicia(IndiceInvertido);
 bool insereDocumento(IndiceInvertido, Chave, NomeDocumento);
+
 int busca(IndiceInvertido, Chave);
 int consulta(IndiceInvertido, Chave *, int, NomeDocumento *);
 void imprime(IndiceInvertido);

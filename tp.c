@@ -1,4 +1,5 @@
 #include "indiceInvertido.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 int main()
@@ -31,8 +32,9 @@ int main()
   if(ehBusca == 'B') {
     Chave buscaChaves[N];
     int nChaves = pegarChaves(buscaChaves);
+    NomeDocumento *documentosBusca = malloc(sizeof(NomeDocumento) * nChaves);
 
-    consulta(indice, buscaChaves, nChaves, documentos);
+    consulta(indice, buscaChaves, nChaves, documentosBusca);
   } else {
     imprime(indice);
   }
