@@ -115,21 +115,69 @@ void imprime(IndiceInvertido indice)
   }
 }
 
-// bubble sort para ordernar
-void sort(NomeDocumento *documentos, int nDocumentos)
+// merge sort para ordernar
+void merge(NomeDocumento *documentos, int left, int mid, int right)
 {
-  int i, j;
-  NomeDocumento aux;
-  for (i = 0; i < nDocumentos; i++)
-  {
-    for (j = i + 1; j < nDocumentos; j++)
+    int i, j, k;
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Create temporary arrays
+    NomeDocumento L[n1], R[n2];
+
+    // Copy data to temporary arrays
+    for (i = 0; i < n1; i++)
+        memcpy(&L[i], &documentos[left + i], sizeof(NomeDocumento));
+    for (j = 0; j < n2; j++)
+        memcpy(&R[j], &documentos[mid + 1 + j], sizeof(NomeDocumento));
+
+    // Merge the temporary arrays back into documentos[left..right]
+    i = 0; // Initial index of first subarray
+    j = 0; // Initial index of second subarray
+    k = left; // Initial index of merged subarray
+    while (i < n1 && j < n2)
     {
-      if (strcmp(documentos[i], documentos[j]) > 0)
-      {
-        memcpy(aux, documentos[i], D);
-        memcpy(documentos[i], documentos[j], D);
-        memcpy(documentos[j], aux, D);
-      }
+        if (strcmp(L[i], R[j]) <= 0)
+        {
+            memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
+            i++;
+        }
+        else
+        {
+            memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
+            j++;
+        }
+        k++;
     }
-  }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1)
+    {
+        memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2)
+    {
+        memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
+        j++;
+        k++;
+    }
+}
+
+void sort(NomeDocumento *documentos, int left, int right)
+{
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
+
+        // ordena a primeira e segunda metades
+        sort(documentos, left, mid);
+        sort(documentos, mid + 1, right);
+
+        // mescla as metades ordenadas
+        merge(documentos, left, mid, right);
+    }
 }

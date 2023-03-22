@@ -25,7 +25,7 @@ int main()
     }
   }
 
-  sort(documentos, nDocumentos);
+  sort(documentos, 0, nDocumentos / 2);
   char ehBusca;
   scanf("%c ", &ehBusca);
 

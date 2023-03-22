@@ -24,4 +24,4 @@ int busca(IndiceInvertido, Chave);
 int consulta(IndiceInvertido, Chave *, int, NomeDocumento *);
 void imprime(IndiceInvertido);
 
-void sort(NomeDocumento *, int);
+void sort(NomeDocumento *documentos, int left, int right);
