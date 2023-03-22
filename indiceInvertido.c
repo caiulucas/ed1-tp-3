@@ -118,66 +118,66 @@ void imprime(IndiceInvertido indice)
 // merge sort para ordernar
 void merge(NomeDocumento *documentos, int left, int mid, int right)
 {
-    int i, j, k;
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+  int i, j, k;
+  int n1 = mid - left + 1;
+  int n2 = right - mid;
 
-    // Create temporary arrays
-    NomeDocumento L[n1], R[n2];
+  // Vetores temporários
+  NomeDocumento L[n1], R[n2];
 
-    // Copy data to temporary arrays
-    for (i = 0; i < n1; i++)
-        memcpy(&L[i], &documentos[left + i], sizeof(NomeDocumento));
-    for (j = 0; j < n2; j++)
-        memcpy(&R[j], &documentos[mid + 1 + j], sizeof(NomeDocumento));
+  // Copia os dados para os vetores temporários L[] e R[]
+  for (i = 0; i < n1; i++)
+    memcpy(&L[i], &documentos[left + i], sizeof(NomeDocumento));
+  for (j = 0; j < n2; j++)
+    memcpy(&R[j], &documentos[mid + 1 + j], sizeof(NomeDocumento));
 
-    // Merge the temporary arrays back into documentos[left..right]
-    i = 0; // Initial index of first subarray
-    j = 0; // Initial index of second subarray
-    k = left; // Initial index of merged subarray
-    while (i < n1 && j < n2)
+  // Mescla os vetores temporários de volta para o vetor documentos
+  i = 0;
+  j = 0;
+  k = left;
+  while (i < n1 && j < n2)
+  {
+    if (strcmp(L[i], R[j]) <= 0)
     {
-        if (strcmp(L[i], R[j]) <= 0)
-        {
-            memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
-            i++;
-        }
-        else
-        {
-            memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
-            j++;
-        }
-        k++;
+      memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
+      i++;
     }
-
-    // Copy the remaining elements of L[], if there are any
-    while (i < n1)
+    else
     {
-        memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
-        i++;
-        k++;
+      memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
+      j++;
     }
+    k++;
+  }
 
-    // Copy the remaining elements of R[], if there are any
-    while (j < n2)
-    {
-        memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
-        j++;
-        k++;
-    }
+  // Copia os elementos restantes de L[], se houver
+  while (i < n1)
+  {
+    memcpy(&documentos[k], &L[i], sizeof(NomeDocumento));
+    i++;
+    k++;
+  }
+
+  // Copia os elementos restantes de R[], se houver
+  while (j < n2)
+  {
+    memcpy(&documentos[k], &R[j], sizeof(NomeDocumento));
+    j++;
+    k++;
+  }
 }
 
 void sort(NomeDocumento *documentos, int left, int right)
 {
-    if (left < right)
-    {
-        int mid = left + (right - left) / 2;
+  if (left < right)
+  {
+    int mid = left + (right - left) / 2;
 
-        // ordena a primeira e segunda metades
-        sort(documentos, left, mid);
-        sort(documentos, mid + 1, right);
+    // Ordena a primeira e segunda metades
+    sort(documentos, left, mid);
+    sort(documentos, mid + 1, right);
 
-        // mescla as metades ordenadas
-        merge(documentos, left, mid, right);
-    }
+    // Mescla as metades ordenadas
+    merge(documentos, left, mid, right);
+  }
 }
