@@ -2,7 +2,8 @@
   "files.associations": {
     ".prettierrc": "json",
     "*.tsx": "typescriptreact",
-    "indiceinvertido.h": "c"
+    "indiceinvertido.h": "c",
+    "stdbool.h": "c"
   },
   "C_Cpp.errorSquiggles": "disabled"
 }

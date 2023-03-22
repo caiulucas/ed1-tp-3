@@ -6,19 +6,12 @@
 
 #define VAZIO " !!!!!!!!!!!!!!!!!!!!\0 "
 
-typedef struct
-{
-  int n; // numero de documentos
-  Chave chave;
-  NomeDocumento documentos[ND];
-} Item;
-
 typedef Item IndiceInvertido[M];
 
 /* Funções */
 
 void inicia(IndiceInvertido);
-bool insereDocumento(IndiceInvertido, Chave, NomeDocumento);
+bool insereDocumento(Hash *, Item);
 
 int busca(IndiceInvertido, Chave);
 int consulta(IndiceInvertido, Chave *, int, NomeDocumento *);
