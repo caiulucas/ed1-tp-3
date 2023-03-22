@@ -1,5 +1,6 @@
 #include <string.h>
 #include "indiceInvertido.h"
+#include "hash.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,28 +13,45 @@ void inicia(IndiceInvertido indice)
   }
 }
 
-bool insereDocumento(IndiceInvertido indice, Chave chave, NomeDocumento nomeDocumento)
+bool insereDocumento(Hash *hash, Item item)
 {
+  if(pesquisaCelula(hash, item.chave) != NULL)
+    return 0; // se ja existir, retorna 0 (falso)
 
-  int iBusca = busca(indice, chave);
-  int i = iBusca == -1 ? h(chave, M) : iBusca;
-
-  strcpy(indice[i].chave, chave); // insere as infos
-  strcpy(indice[i].documentos[indice[i].n++], nomeDocumento);
-
-  return i != -1;
+  listaInsere(&hash->v[h(hash, item.chave)], item);
+  hash->nro_elementos++;
+  return insere(&hash->v[i], item);
 }
 
-int busca(IndiceInvertido indice, Chave chave)
+/* Retorno o ponteiro apontando para a celula anterior da lista */
+Celula *pesquisaCelula(Hash *hash, Chave chave)
 {
-  int i = h(chave, M);                     // inicia a chave com o heap
-  if (strcmp(indice[i].chave, VAZIO) == 0) // se o indice das posicoes encontradas do heap for sempre vazio, a pesquisa nao teve exito
-    return -1;
+  int i = h(hash, chave);
+  Celula *aux;
 
-  while (i != M && strcmp(indice[i].chave, chave) != 0) // busca a chave na posicao. enquanto ela for vazia ou diferente da chave procurada, ela entra no while
-    i++;
+  if (ehVazia(&hash->v[i]))
+    return NULL; // pesquisa sem sucesso
 
-  return i == M ? -1 : i; // caso for encontrada, retorna o i (posicao da mesma dentro do heap)
+  aux = hash->v[i].pPrimeiro;
+
+  while (aux->pProx - > pProx != NULL && strcmp(chave, aux->pProx - > item.chave) != 0)
+    aux = aux->pProx;
+
+  if (!strcmp(chave, aux - > pProx->item.chave, sizeof(TChave)))
+    return aux;
+  else
+    return NULL; // pesquisa sem sucesso
+}
+
+int busca(Hash *hash, Chave chave, Item *item)
+{
+  Celula *aux = pesquisaCelula(hash, chave);
+
+  if (aux == NULL)
+    return 0; // se nao encontrar, retorna -1
+
+  *item = aux->pProx->item;
+  return 1; // se encontrar, retorna 1
 }
 
 int buscaDocumentos(NomeDocumento *documentos1, int nDocumentos1, NomeDocumento *documentos2, int nDocumentos2, NomeDocumento *documentos)
@@ -43,7 +61,7 @@ int buscaDocumentos(NomeDocumento *documentos1, int nDocumentos1, NomeDocumento 
   {
     for (int j = 0; j < nDocumentos2; j++)
     {
-      if (strcmp(documentos1[i], documentos2[j]) == 0) // co0mpara se e igual
+      if (strcmp(documentos1[i], documentos2[j]) == 0) // compara se e igual
       {
         strcpy(documentos[cont++], documentos1[i]); // se for igual, armazena no array de documentos
       }
