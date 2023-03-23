@@ -13,7 +13,7 @@ typedef Item IndiceInvertido[M];
 void inicia(IndiceInvertido);
 bool insereDocumento(Hash *, Item);
 
-int busca(IndiceInvertido, Chave);
+int busca(Hash *hash, Chave chave, Item *item);
 int consulta(IndiceInvertido, Chave *, int, NomeDocumento *);
 void imprime(IndiceInvertido);
 

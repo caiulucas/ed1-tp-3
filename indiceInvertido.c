@@ -13,14 +13,9 @@ void inicia(IndiceInvertido indice)
   }
 }
 
-bool insereDocumento(Hash *hash, Item item)
+bool ehVazia(Lista *lista)
 {
-  if(pesquisaCelula(hash, item.chave) != NULL)
-    return 0; // se ja existir, retorna 0 (falso)
-
-  listaInsere(&hash->v[h(hash, item.chave)], item);
-  hash->nro_elementos++;
-  return insere(&hash->v[i], item);
+  return (lista->pPrimeiro == NULL);
 }
 
 /* Retorno o ponteiro apontando para a celula anterior da lista */
@@ -34,13 +29,24 @@ Celula *pesquisaCelula(Hash *hash, Chave chave)
 
   aux = hash->v[i].pPrimeiro;
 
-  while (aux->pProx - > pProx != NULL && strcmp(chave, aux->pProx - > item.chave) != 0)
+  while (aux->pProx->pProx != NULL && strcmp(chave, aux->pProx->item.chave) != 0)
     aux = aux->pProx;
 
-  if (!strcmp(chave, aux - > pProx->item.chave, sizeof(TChave)))
+  if (!strcmp(chave, aux->pProx->item.chave))
     return aux;
   else
     return NULL; // pesquisa sem sucesso
+}
+
+bool insereDocumento(Hash *hash, Item item)
+{
+  Celula *aux = pesquisaCelula(hash, item.chave);
+  if (aux != NULL)
+    return 0; // se ja existir, retorna 0 (falso)
+
+  listaInsere(aux, item);
+  hash->nro_listas++;
+  return insere(aux, item);
 }
 
 int busca(Hash *hash, Chave chave, Item *item)
@@ -70,12 +76,12 @@ int buscaDocumentos(NomeDocumento *documentos1, int nDocumentos1, NomeDocumento 
   return cont; // retorna a quantidade de iguais
 }
 
-int consulta(IndiceInvertido indice, Chave *chaves, int n, NomeDocumento *documentos)
+int consulta(Hash *hash, Chave *chaves, int n, NomeDocumento *documentos)
 {
   int *posicoes = malloc(sizeof(int) * n); // aloca array de posicoes
   int cont = 0;                            // contagem
   int iniPos;
-  iniPos = busca(indice, chaves[0]);
+  iniPos = busca(hash, chaves[0]);
 
   if (iniPos == -1)
   {
@@ -85,7 +91,7 @@ int consulta(IndiceInvertido indice, Chave *chaves, int n, NomeDocumento *docume
 
   for (int i = 1; i < n; i++) // posicao e armazenada no array e soma 1 no cont
   {
-    int pos = busca(indice, chaves[i]);
+    int pos = busca(hash, chaves[i]);
     if (iniPos != -1)
     {
       cont = buscaDocumentos(indice[iniPos].documentos, indice[iniPos].n, indice[pos].documentos, indice[pos].n, documentos);
